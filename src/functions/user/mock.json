@@ -1,0 +1,6 @@
+{
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "body": "{\"name\": \"wsldev\", \"age\": \"42\", \"doc\": \"12345678909\"}"
+}
