@@ -1,1 +1,7 @@
-export { createUser } from './user';
+export {
+  getAllUsers,
+  createUser,
+  getUser,
+  updateUser,
+  deleteUser
+} from './user';

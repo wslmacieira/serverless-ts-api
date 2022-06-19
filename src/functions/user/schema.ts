@@ -1,14 +1,4 @@
-export const schemaJson = {
-  type: "object",
-  properties: {
-    name: { type: 'string' },
-    age: { type: 'number' },
-    doc: { type: 'string' },
-  },
-  required: ['name', 'age', 'doc']
-} as const;
-
-import { object, string, number } from 'yup'
+import { object, string, number } from '@libs/validator'
 
 export const schema = {
   body: object({

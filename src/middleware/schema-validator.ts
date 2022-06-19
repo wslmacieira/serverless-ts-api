@@ -1,3 +1,7 @@
+import pino from 'pino'
+
+const logger = pino()
+
 export const schemaValidator = (schema: any) => {
   const before = async (req: any) => {
     try {
@@ -14,6 +18,7 @@ export const schemaValidator = (schema: any) => {
       return Promise.resolve()
     } catch (e: any) {
       delete e.stack
+      logger.error(e)
       return {
         statusCode: 400,
         body: JSON.stringify({

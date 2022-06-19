@@ -1,13 +1,17 @@
 {
-  "name": "serverless-ts",
+  "name": "serverless-ts-api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.ts",
+  "main": "serverless.ts",
   "scripts": {
     "build": "tsc",
     "dev": "sls offline -s dev",
     "debug": "SLS_DEBUG=* && sls offline -s dev",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint:fix": "npx eslint --fix .",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:ci": "jest --collectCoverage",
+    "test:staged": "jest --findRelatedTests",
     "prepare": "husky install"
   },
   "keywords": [],
@@ -42,6 +46,7 @@
   "dependencies": {
     "@middy/core": "^3.0.4",
     "@middy/http-json-body-parser": "^3.0.4",
+    "pino": "^8.0.0",
     "yup": "^0.32.11"
   },
   "lint-staged": {

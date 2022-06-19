@@ -5,13 +5,18 @@ import User from 'src/model/user';
 import { v4 } from "uuid";
 import userService from '../../service'
 
-import { schema, schemaJson } from './schema';
+import { schema } from './schema';
 
-const createUser: ValidatedEventAPIGatewayProxyEvent<typeof schemaJson> = async (event) => {
+const getAllUsers: ValidatedEventAPIGatewayProxyEvent<User[]> = async () => {
+  const users = await userService.getAllUsers();
+  return formatJSONResponse({
+    users
+  }, 200)
+}
+
+const createUser: ValidatedEventAPIGatewayProxyEvent<User> = async (event) => {
   try {
     const id = v4();
-    console.log(event.body);
-
     const user: User = await userService.createUser({
       userId: id,
       name: event.body.name,
@@ -29,4 +34,57 @@ const createUser: ValidatedEventAPIGatewayProxyEvent<typeof schemaJson> = async 
   }
 };
 
-export const main = middleware(createUser, schema);
+const getUser: ValidatedEventAPIGatewayProxyEvent<User> = async (event) => {
+  const id = event.pathParameters?.id as string;
+  try {
+    const user = await userService.getUser(id)
+    return formatJSONResponse({
+      user, id
+    }, 200);
+  } catch (e) {
+    return formatJSONResponse({
+      message: e
+    }, 500);
+  }
+}
+
+const updateUser: ValidatedEventAPIGatewayProxyEvent<User> = async (event) => {
+  const id = event.pathParameters?.id as string;
+  try {
+    const user = await userService.updateUser(id)
+    return formatJSONResponse({
+      user, id
+    }, 200);
+  } catch (e) {
+    return formatJSONResponse({
+      message: e
+    }, 500);
+  }
+}
+
+const deleteUser: ValidatedEventAPIGatewayProxyEvent<User> = async (event) => {
+  const id = event.pathParameters?.id as string;
+  try {
+    const user = await userService.deleteUser(id)
+    return formatJSONResponse({
+      user, id
+    }, 200);
+  } catch (e) {
+    return formatJSONResponse({
+      message: e
+    }, 500);
+  }
+}
+
+export const hello = async (event: any) => {
+  event
+  return formatJSONResponse({
+    message: 'Hello World'
+  }, 200)
+}
+
+export const mainGetAll = middleware(getAllUsers);
+export const mainCreate = middleware(createUser, schema);
+export const mainGet = middleware(getUser);
+export const mainUpdate = middleware(updateUser);
+export const mainDelete = middleware(deleteUser);
